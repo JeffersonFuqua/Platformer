@@ -1800,3 +1800,51 @@ System memory in use after: 194.2 MB.
 Unloading 12 unused Assets to reduce memory usage. Loaded Objects now: 5483.
 Total: 6.210900 ms (FindLiveObjects: 0.570900 ms CreateObjectMapping: 0.172900 ms MarkObjects: 5.359700 ms  DeleteObjects: 0.105800 ms)
 
+========================================================================
+Received Import Request.
+  Time since last request: 1331.529256 seconds.
+  path: Assets/Scripts/Checkpoint.cs
+  artifactKey: Guid(7146478d5f609b244ad451888ca4f72f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Checkpoint.cs using Guid(7146478d5f609b244ad451888ca4f72f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '40b2333e4614a2f563210eb6bb9ebd39') in 0.014848 seconds
+  Import took 0.021250 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.714477 seconds.
+  path: Assets/Scripts/SetCameraDistance.cs
+  artifactKey: Guid(d36e99d094f98d349b1687e630a38a5b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/SetCameraDistance.cs using Guid(d36e99d094f98d349b1687e630a38a5b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bfd64a3b303b6687ab4f354854b27736') in 0.010055 seconds
+  Import took 0.016253 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.002601 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.74 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Warning: Annotation not found!
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.ProBuilder.EditorUtility:SetGizmoIconEnabled (System.Type,bool) (at Library/PackageCache/com.unity.probuilder@4.5.0/Editor/EditorCore/EditorUtility.cs:593)
+UnityEditor.ProBuilder.HierarchyListener:.cctor () (at Library/PackageCache/com.unity.probuilder@4.5.0/Editor/EditorCore/HierarchyListener.cs:21)
+System.Runtime.CompilerServices.RuntimeHelpers:RunClassConstructor (System.RuntimeTypeHandle)
+UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
+
+[Library/PackageCache/com.unity.probuilder@4.5.0/Editor/EditorCore/EditorUtility.cs line 593]
+
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.377 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.70 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3917 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 193.8 MB.
+System memory in use after: 194.2 MB.
+
+Unloading 12 unused Assets to reduce memory usage. Loaded Objects now: 5486.
+Total: 4.163900 ms (FindLiveObjects: 0.525000 ms CreateObjectMapping: 0.110900 ms MarkObjects: 3.438000 ms  DeleteObjects: 0.089000 ms)
+
