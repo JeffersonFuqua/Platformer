@@ -11,13 +11,16 @@ public class Switch : MonoBehaviour
     private bool bTriggered;
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player") && !bTriggered || bTogglable)
+        if(other.CompareTag("Player"))
         {
-            bTriggered = true;
-            for (int x = 0; x < switchActions.Count; x++)
-                switchActions[x].Action();
-            for (int x = 0; x < feedBackActions.Count; x++)
-                feedBackActions[x].Action();
+            if (!bTriggered || bTogglable)
+            {
+                bTriggered = true;
+                for (int x = 0; x < switchActions.Count; x++)
+                    switchActions[x].Action();
+                for (int x = 0; x < feedBackActions.Count; x++)
+                    feedBackActions[x].Action();
+            }
         }
     }
     private void OnTriggerExit(Collider other)

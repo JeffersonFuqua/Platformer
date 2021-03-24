@@ -6,20 +6,26 @@ using System;
 using UnityEditor;
 #endif
 
-public class KillZone : MonoBehaviour
+public class KillZone : GameActions
 {
+    public bool bGameAction;
     public static Action ResetPlayer = delegate { };
 
     private void OnEnable()
     {
-       transform.GetComponent<MeshRenderer>().enabled = false;
+        if (bGameAction) return;
+        transform.GetComponent<MeshRenderer>().enabled = false;
         transform.GetComponent<Collider>().isTrigger = true;
     }
     private void OnTriggerEnter(Collider other)
     {
+        if (bGameAction) return;
         if (other.CompareTag("Player"))
             ResetPlayer();
-
+    }
+    public override void Action()
+    {
+        ResetPlayer();
     }
 #if UNITY_EDITOR
     private void Reset()

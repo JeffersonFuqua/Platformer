@@ -19,6 +19,7 @@ namespace CMF
 		public bool bPlayOnAwake = true;
 		//This boolean is used to stop movement while the platform is waiting;
 		private bool isWaiting = false;
+		private bool bFadeComplete;
 
 		//References to attached components;
 		Rigidbody r;
@@ -71,7 +72,22 @@ namespace CMF
 			StartCoroutine(WaitRoutine());
 			StartCoroutine(LateFixedUpdate());
 		}
-
+		public void Restart()
+		{
+			bFadeComplete = false;
+			ScreenFader.FadeOutComplete += FadeComplete;
+			StartCoroutine("WaitForFadeOut");			
+		}
+		private void ResetMover()
+		{
+			ScreenFader.FadeOutComplete -= FadeComplete;
+			bFadeComplete = false;
+			StopAllCoroutines();
+			isWaiting = true;
+			transform.position = waypoints[0].position;
+			StartPlatformMovement();
+		}
+		private void FadeComplete(){ bFadeComplete = true;}
 		//This coroutine ensures that platform movement always occurs after Fixed Update;
 		IEnumerator LateFixedUpdate()
 		{
@@ -82,7 +98,12 @@ namespace CMF
 				MovePlatform();
 			}
 		}
-
+		IEnumerator WaitForFadeOut()
+		{
+			while(!bFadeComplete)
+				yield return new WaitForEndOfFrame();
+			ResetMover();
+		}
 		void MovePlatform () {
 
 			//If no waypoints have been assigned, return;
