@@ -12,6 +12,7 @@ public class ResetPlayer : MonoBehaviour
 
     private Transform player;
     private Vector3 respawnLocation;
+    private Quaternion playerRot;
     private bool bFadeOut,bFadeIn, bRespawning;
 
     private void OnEnable()
@@ -37,9 +38,10 @@ public class ResetPlayer : MonoBehaviour
         bRespawning = true;
         StartCoroutine("WaitForFadeIn");
     }
-    private void SetRespawnLocation(Vector3 value)
+    private void SetRespawnLocation(Vector3 value,Quaternion rotValue)
     {
-        respawnLocation = value;       
+        respawnLocation = value;
+        playerRot = rotValue;
     }
     private void FadeOutComplete() { bFadeOut = true; }
     private void FadeInComplete() { bFadeIn = true; }
@@ -52,6 +54,7 @@ public class ResetPlayer : MonoBehaviour
         float cachedSpeed = advanceWalker.movementSpeed;
         advanceWalker.movementSpeed = 0;
         player.position = respawnLocation;
+        player.rotation = playerRot;
         bFadeIn = false;
         FadeIn();
         while (!bFadeIn)

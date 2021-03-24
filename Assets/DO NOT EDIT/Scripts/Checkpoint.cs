@@ -5,7 +5,7 @@ using System;
 
 public class Checkpoint : MonoBehaviour
 {
-    public static Action<Vector3> RespawnPoint = delegate { };
+    public static Action<Vector3,Quaternion> RespawnPoint = delegate { };
 
     private void OnEnable()
     {
@@ -13,6 +13,6 @@ public class Checkpoint : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        RespawnPoint(transform.position);
+        RespawnPoint(transform.position,other.transform.rotation);
     }
 }
