@@ -33,7 +33,9 @@ namespace CMF
 
 		//Jump duration variables;
 		public float jumpDuration = 0.2f;
+		private float bounceDuration;
 		float currentJumpStartTime = 0f;
+		private bool bBouncing;
 
 		//'AirFriction' determines how fast the controller loses its momentum while in the air;
 		//'GroundFriction' is used instead, if the controller is grounded;
@@ -102,10 +104,12 @@ namespace CMF
 		{
 			pActions = new PlatformerActions();
 			pActions.Enable();
+			Bouncy.Bounce += Bounce;
 		}
 		private void OnDisable()
 		{
 			pActions.Disable();
+			Bouncy.Bounce -= Bounce;
 		}
 		//Handle jump booleans for later use in FixedUpdate;
 		void HandleJumpKeyInput()
@@ -327,21 +331,34 @@ namespace CMF
 			//Jumping;
 			if(currentControllerState == ControllerState.Jumping)
 			{
-				//Check for jump timeout;
-				if((Time.time - currentJumpStartTime) > jumpDuration)
-					return ControllerState.Rising;
-
-				//Check if jump key was let go;
-				if(jumpKeyWasLetGo)
-					return ControllerState.Rising;
-
-				//If a ceiling detector has been attached to this gameobject, check for ceiling hits;
-				if(ceilingDetector != null)
+				if (bBouncing)
 				{
-					if(ceilingDetector.HitCeiling())
+					if (Time.time - currentJumpStartTime > bounceDuration)
 					{
-						OnCeilingContact();
-						return ControllerState.Falling;
+						bBouncing = false;
+						return ControllerState.Rising;
+					}
+					else
+						return ControllerState.Jumping;
+				}
+				else
+				{
+					//Check for jump timeout;
+					if ((Time.time - currentJumpStartTime) > jumpDuration)
+						return ControllerState.Rising;
+
+					//Check if jump key was let go;
+					if (jumpKeyWasLetGo)
+						return ControllerState.Rising;
+
+					//If a ceiling detector has been attached to this gameobject, check for ceiling hits;
+					if (ceilingDetector != null)
+					{
+						if (ceilingDetector.HitCeiling())
+						{
+							OnCeilingContact();
+							return ControllerState.Falling;
+						}
 					}
 				}
 				return ControllerState.Jumping;
@@ -449,7 +466,14 @@ namespace CMF
 			if(useLocalMomentum)
 				momentum = tr.worldToLocalMatrix * momentum;
 		}
-
+		//Bounce platform
+		private void Bounce(float duration)
+		{
+			bBouncing = true;
+			bounceDuration = duration;
+			OnJumpStart();
+			currentControllerState = ControllerState.Jumping;
+		}
 		//This function is called when the controller has lost ground contact, i.e. is either falling or rising, or generally in the air;
 		void OnGroundContactLost()
 		{

@@ -16,7 +16,7 @@ namespace CMF
 
 		//Wait time after reaching a waypoint;
 		public float waitTime = 1f;
-
+		public bool bPlayOnAwake = true;
 		//This boolean is used to stop movement while the platform is waiting;
 		private bool isWaiting = false;
 
@@ -30,26 +30,44 @@ namespace CMF
 		Transform currentWaypoint;
 
 		//Start;
-		void Start () {
+		void Start () 
+		{
+			
+				//Get references to components;
+				r = GetComponent<Rigidbody>();
+				triggerArea = GetComponentInChildren<TriggerArea>();
 
-			//Get references to components;
-			r = GetComponent<Rigidbody>();
-			triggerArea = GetComponentInChildren<TriggerArea>();
+				//Disable gravity, freeze rotation of rigidbody and set to kinematic;
+				r.freezeRotation = true;
+				r.useGravity = false;
+				r.isKinematic = true;
 
-			//Disable gravity, freeze rotation of rigidbody and set to kinematic;
-			r.freezeRotation = true;
-			r.useGravity = false;
-			r.isKinematic = true;
-
-			//Check if any waypoints have been assigned and if not, throw a warning;
-			if(waypoints.Count <= 0){
-				Debug.LogWarning("No waypoints have been assigned to 'MovingPlatform'!");
-			} else {
-				//Set first waypoint;
-				currentWaypoint = waypoints[currentWaypointIndex];
+				//Check if any waypoints have been assigned and if not, throw a warning;
+				if (waypoints[0] == null)
+					Debug.LogWarning("Waypoints have not been assigned in the Inspector.");
+				else if (waypoints.Count <= 0)
+				{
+					Debug.LogWarning("No waypoints have been assigned to 'MovingPlatform'!");
+				}
+				else
+				{
+					//Set first waypoint;
+					currentWaypoint = waypoints[currentWaypointIndex];
+				}
+			if (bPlayOnAwake)
+			{
+				//Start coroutines;
+				StartCoroutine(WaitRoutine());
+				StartCoroutine(LateFixedUpdate());
 			}
-
-			//Start coroutines;
+			else
+			{
+				if(waypoints[0] != null)
+					transform.position = waypoints[0].position;
+			}
+		}
+		public void StartPlatformMovement()
+		{
 			StartCoroutine(WaitRoutine());
 			StartCoroutine(LateFixedUpdate());
 		}
@@ -145,4 +163,5 @@ namespace CMF
 			}
 		}	
 	}
+	
 }
